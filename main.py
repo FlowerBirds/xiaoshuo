@@ -4,7 +4,6 @@ import requests
 from bs4 import BeautifulSoup
 import edge_tts
 import asyncio
-import time
 
 def fetch_chapter(chapter_num, save_dir="books"):
     base_url = "https://www.bqg5.com/0_785/"
