@@ -1,0 +1,60 @@
+2025-06-11 14:02:47,576 INFO __main__ Starting tts_server...
+2025-06-11 14:02:47,587 WARNING werkzeug  * Debugger is active!
+2025-06-11 14:02:47,605 INFO werkzeug  * Debugger PIN: 121-790-014
+2025-06-11 14:02:55,431 WARNING werkzeug  * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+2025-06-11 14:02:55,432 INFO werkzeug  * Running on http://191.168.4.38:8080/ (Press CTRL+C to quit)
+2025-06-11 14:03:46,725 INFO werkzeug  * Detected change in 'D:\\07_code\\python\\xiaoshuo\\tts_marker.py', reloading
+2025-06-11 14:04:23,325 INFO __main__ Starting tts_server...
+2025-06-11 14:04:23,337 WARNING werkzeug  * Debugger is active!
+2025-06-11 14:04:23,356 INFO werkzeug  * Debugger PIN: 121-790-014
+2025-06-11 14:04:30,698 WARNING werkzeug  * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+2025-06-11 14:04:30,699 INFO werkzeug  * Running on http://191.168.4.38:8080/ (Press CTRL+C to quit)
+2025-06-11 14:05:15,882 INFO werkzeug  * Detected change in 'D:\\07_code\\python\\xiaoshuo\\tts_server.py', reloading
+2025-06-11 14:05:17,851 INFO __main__ Starting tts_server...
+2025-06-11 14:05:17,862 WARNING werkzeug  * Debugger is active!
+2025-06-11 14:05:17,883 INFO werkzeug  * Debugger PIN: 121-790-014
+2025-06-11 14:05:25,604 WARNING werkzeug  * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+2025-06-11 14:05:25,604 INFO werkzeug  * Running on http://191.168.4.38:8080/ (Press CTRL+C to quit)
+2025-06-11 14:11:10,241 INFO werkzeug  * Detected change in 'D:\\07_code\\python\\xiaoshuo\\tts_server.py', reloading
+2025-06-11 14:11:11,851 INFO __main__ Starting tts_server... Debug=True
+2025-06-11 14:11:11,861 WARNING werkzeug  * Debugger is active!
+2025-06-11 14:11:11,879 INFO werkzeug  * Debugger PIN: 121-790-014
+2025-06-11 14:11:18,912 WARNING werkzeug  * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+2025-06-11 14:11:18,912 INFO werkzeug  * Running on http://191.168.4.38:8080/ (Press CTRL+C to quit)
+2025-06-11 14:11:41,106 INFO werkzeug  * Detected change in 'D:\\07_code\\python\\xiaoshuo\\tts_server.py', reloading
+2025-06-11 14:11:42,675 INFO __main__ Starting tts_server... Debug=False
+2025-06-11 14:11:42,688 WARNING werkzeug  * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+2025-06-11 14:11:42,688 INFO werkzeug  * Running on http://191.168.4.38:8080/ (Press CTRL+C to quit)
+2025-06-11 14:12:26,173 INFO __main__ Starting tts_server... Debug=False
+2025-06-11 14:12:26,186 WARNING werkzeug  * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+2025-06-11 14:12:26,186 INFO werkzeug  * Running on http://191.168.4.38:8080/ (Press CTRL+C to quit)
+2025-06-11 14:12:47,343 INFO __main__ Starting tts_server... Debug=False
+2025-06-11 14:12:47,360 INFO werkzeug  * Restarting with stat
+2025-06-11 14:12:49,051 INFO __main__ Starting tts_server... Debug=False
+2025-06-11 14:12:49,061 WARNING werkzeug  * Debugger is active!
+2025-06-11 14:12:49,080 INFO werkzeug  * Debugger PIN: 121-790-014
+2025-06-11 14:12:55,507 WARNING werkzeug  * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+2025-06-11 14:12:55,507 INFO werkzeug  * Running on http://191.168.4.38:8080/ (Press CTRL+C to quit)
+2025-06-11 14:13:28,673 INFO __main__ Starting tts_server... Debug=False
+2025-06-11 14:13:28,686 INFO werkzeug  * Restarting with stat
+2025-06-11 14:13:30,061 INFO __main__ Starting tts_server... Debug=False
+2025-06-11 14:13:30,070 WARNING werkzeug  * Debugger is active!
+2025-06-11 14:13:30,089 INFO werkzeug  * Debugger PIN: 121-790-014
+2025-06-11 14:13:36,452 WARNING werkzeug  * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+2025-06-11 14:13:36,453 INFO werkzeug  * Running on http://191.168.4.38:8080/ (Press CTRL+C to quit)
+2025-06-11 14:14:28,403 INFO __main__ Starting tts_server... Debug=False
+2025-06-11 14:14:28,416 WARNING werkzeug  * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+2025-06-11 14:14:28,416 INFO werkzeug  * Running on http://191.168.4.38:8080/ (Press CTRL+C to quit)
+2025-06-11 14:14:39,204 INFO __main__ Starting tts_server... Debug=False
+2025-06-11 14:14:39,217 WARNING werkzeug  * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+2025-06-11 14:14:39,218 INFO werkzeug  * Running on http://191.168.4.38:8080/ (Press CTRL+C to quit)

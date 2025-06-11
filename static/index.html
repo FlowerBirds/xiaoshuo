@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>在线音频播放器</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            padding: 30px; 
+            background: #f8f8f8; 
+            margin: 0;
+        }
+        .player { 
+            background: #fff; 
+            padding: 20px; 
+            border-radius: 8px; 
+            max-width: 400px; 
+            margin: 24px auto; 
+            box-shadow: 0 2px 8px #ccc; 
+        }
+        .controls { 
+            margin-top: 10px; 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+            flex-wrap: wrap;
+        }
+        .controls label, .controls select, .controls button {
+            font-size: 1rem;
+        }
+        .playlist { 
+            margin-top: 20px; 
+            padding-left: 0;
+            list-style: none;
+        }
+        .playlist li { 
+            cursor: pointer; 
+            padding: 8px 0; 
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 1rem;
+        }
+        .playlist .active { 
+            color: #2196f3; 
+            font-weight: bold; 
+        }
+        .playlist .no-url {
+            color: red;
+        }
+        audio {
+            width: 100%;
+            max-width: 100%;
+            outline: none;
+        }
+        @media (max-width: 500px) {
+            body {
+                padding: 8px;
+            }
+            .player {
+                padding: 10px;
+                max-width: 100%;
+                border-radius: 0;
+                box-shadow: none;
+            }
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 6px;
+            }
+            .controls label, .controls select, .controls button {
+                font-size: 1em;
+            }
+            .playlist li {
+                font-size: 1em;
+                padding: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="player">
+        <audio id="audio" controls style="width:100%;">
+            您的浏览器不支持 audio 元素。
+        </audio>
+        <div class="controls">
+            <label for="speed">倍速:</label>
+            <select id="speed">
+                <option value="0.75">0.75x</option>
+                <option value="1" selected>1x</option>
+                <option value="1.25">1.25x</option>
+                <option value="1.5">1.5x</option>
+                <option value="2">2x</option>
+            </select>
+            <button id="prev">上一首</button>
+            <button id="next">下一首</button>
+            <button id="refresh">刷新列表</button>
+        </div>
+        <ul class="playlist" id="playlist">
+            <!-- 歌单列表 -->
+        </ul>
+    </div>
+    <script>
+        let tracks = [];
+        let currentSpeed = 1.0;
+        // 通用刷新播放列表函数
+        function refreshPlayerList(showLoadingBtn) {
+            if (showLoadingBtn && refreshBtn) {
+                refreshBtn.disabled = true;
+                refreshBtn.textContent = '刷新中...';
+            }
+            return fetch('/tts/update-playerlist', { method: 'POST' })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success && data.playlist) {
+                        tracks = Object.keys(data.playlist).map(item => ({
+                            url: data.playlist[item].mp3,
+                            title: data.playlist[item].title,
+                            txt: data.playlist[item].txt
+                        }));
+                        // current = 0;
+                        updatePlaylist();
+                        // loadTrack(current);
+                    } else {
+                        alert('刷新失败');
+                    }
+                })
+                .catch(() => alert('刷新失败'))
+                .finally(() => {
+                    if (showLoadingBtn && refreshBtn) {
+                        refreshBtn.disabled = false;
+                        refreshBtn.textContent = '刷新列表';
+                    }
+                });
+        }
+
+        // 初始化加载播放列表
+        function initPlayerList() {
+            fetch('/tts/playerlist')
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success && data.playlist) {
+                        tracks = Object.keys(data.playlist).map(item => ({
+                           url: data.playlist[item].mp3,
+                            title: data.playlist[item].title,
+                            txt: data.playlist[item].txt
+                        }));
+                        updatePlaylist();
+                        loadTrack(current);
+                    } else {
+                        tracks = [];
+                        if (data.error) {
+                            alert('加载播放列表失败: ' + data.error);
+                        } else {
+                            alert('加载播放列表失败');
+                        }
+                        refreshPlayerList(false);
+                    }
+                });
+        }
+        initPlayerList();
+
+        const audio = document.getElementById('audio');
+        const playlist = document.getElementById('playlist');
+        const speed = document.getElementById('speed');
+        const prevBtn = document.getElementById('prev');
+        const nextBtn = document.getElementById('next');
+        const refreshBtn = document.getElementById('refresh');
+        audio.addEventListener('canplaythrough', function() {
+            audio.play();
+        });
+        // 刷新按钮事件
+        refreshBtn.onclick = function() {
+            refreshPlayerList(true);
+        };
+        let current = 0;
+
+        function loadTrack(index) {
+            audio.src = tracks[index].url;
+            document.title = tracks[index].title;
+            updatePlaylist();
+            audio.playbackRate = currentSpeed;
+        }
+        // 保存播放进度到服务器
+        function saveProgress() {
+            fetch('/tts/save-progress', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                file: tracks[current].url,
+                time: audio.currentTime
+            })
+            });
+        }
+
+        // 加载播放进度（可选，需后端支持）
+        function loadProgress() {
+            fetch('/tts/load-progress')
+            .then(res => res.json())
+            .then(data => {
+                const idx = tracks.findIndex(t => t.url === data.progress.file);
+                if (idx !== -1) {
+                current = idx;
+                loadTrack(current);
+                audio.addEventListener('loadedmetadata', function setTime() {
+                    audio.currentTime = data.progress.time || 0;
+                    audio.removeEventListener('loadedmetadata', setTime);
+                });
+                }
+            });
+        }
+
+        // 监听播放进度变化并保存
+        audio.ontimeupdate = function() {
+            saveProgress();
+        };
+
+        // 页面加载时尝试恢复进度（可选）
+        loadProgress();
+        function updatePlaylist() {
+            playlist.innerHTML = '';
+            tracks.forEach((track, idx) => {
+                const li = document.createElement('li');
+                li.textContent = track.title;
+                if (idx === current) li.classList.add('active');
+                if (!track.url) {
+                    li.classList.add('no-url');
+                    li.textContent += ' (无效链接)';
+                    li.onclick = () => {
+                        fetch('/tts/reload-mp3', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ title: track.title, txt: track.txt })
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data && data.mp3_path) {
+                                tracks[idx].url = data.mp3_path;
+                                li.classList.remove('no-url');
+                                li.textContent = track.title;
+                                current = idx;
+                            } else {
+                                alert('音频加载失败');
+                            }
+                        })
+                        .catch(() => alert('音频加载失败'));
+                    };
+                } else {
+                    li.classList.remove('no-url');
+                    li.onclick = () => {
+                        current = idx;
+                        loadTrack(current);
+                    };
+                }
+                playlist.appendChild(li);
+            });
+        }
+
+        speed.onchange = function() {
+            // 更新音频播放速度
+            currentSpeed = parseFloat(this.value);
+            audio.playbackRate = currentSpeed;
+        };
+
+        prevBtn.onclick = function() {
+            current = (current - 1 + tracks.length) % tracks.length;
+            loadTrack(current);
+        };
+
+        nextBtn.onclick = function() {
+            current = (current + 1) % tracks.length;
+            loadTrack(current);
+             if (current >= tracks.length - 2) {
+                refreshPlayerList(false);
+            }
+        };
+
+        audio.onended = function() {
+            if (current >= tracks.length - 2) {
+                refreshPlayerList(false);
+            }
+            current = (current + 1) % tracks.length;
+            loadTrack(current);
+        };
+
+        // 初始化
+        //updatePlaylist();
+        //loadTrack(current);
+    </script>
+</body>
+</html>
